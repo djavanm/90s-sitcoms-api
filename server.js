@@ -25,6 +25,19 @@ app.get('/api/v1/sitcoms', (request, response) => {
   });
 });
 
+app.post('/api/v1/sitcoms', (request, response) => {
+  const sitcom = request.body;
+  const { title, seasons, episodes, premiere_date, finale_date } = sitcom;
+  for (let requiredKey of ['title', 'seasons', 'episodes', 'premiere_date', 'finale_date']) {
+    if(!sitcom[requiredKey]) {
+      return response.status(404).send({error: `You are missing a required value for ${requiredKey}`})
+    }
+  }
+  database('sitcoms').insert({title, seasons, episodes, premiere_date, finale_date}, 'id')
+    .then(id => response.status(201).json({id: id}))
+    .catch(error => response.status(500).json({ error }))
+});
+
 app.get('/api/v1/sitcoms/:id', (request, response) => {
   const sitcomId = parseInt(request.params.id);
   database('sitcoms')
