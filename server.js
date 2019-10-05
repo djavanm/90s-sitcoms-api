@@ -25,6 +25,32 @@ app.get('/api/v1/sitcoms', (request, response) => {
   });
 });
 
+app.get('/api/v1/sitcoms/:id', (request, response) => {
+  const sitcomId = parseInt(request.params.id);
+  database('sitcoms')
+    .where('id', sitcomId)
+    .then((data) => {
+      if(data.length) {
+        return response.status(201).json({sitcom: data[0]})
+      } else {
+        return response.status(404).json({error: 'Data does not exist.'})
+      }
+    });
+});
+
+app.get('/api/v1/castMembers/:id', (request, response) => {
+  const castId = parseInt(request.params.id);
+  database('cast_members')
+    .where('id', castId)
+    .then((data) => {
+      if(data.length) {
+        return response.status(201).json({castMember: data[0]})
+      } else {
+        return response.status(404).json({error: 'Data does not exist.'})
+      }
+    });
+});
+
 app.get('/api/v1/castMembers', (request, response) => {
   database('cast_members').select()
     .then((castMembers) => {
