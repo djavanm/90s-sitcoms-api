@@ -29,12 +29,17 @@ app.get('/api/v1/sitcoms/:id', (request, response) => {
   const sitcomId = parseInt(request.params.id);
   database('sitcoms')
     .where('id', sitcomId)
-    .then((data) => {
-      if(data.length) {
-        return response.status(201).json({sitcom: data[0]})
-      } else {
+    .then((query) => {
+      if(!query.length) {
         return response.status(404).json({error: 'Data does not exist.'})
+      } else {
+        return query[0];
       }
+    })
+    .then(sitcom => {
+      database('cast_members')
+      .where('sitcom_id', sitcomId)
+      .then(cast => response.status(201).json({sitcom: sitcom, cast: cast}))
     });
 });
 
