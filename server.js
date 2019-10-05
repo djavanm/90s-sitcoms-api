@@ -93,6 +93,13 @@ app.get('/api/v1/castMembers/:id', (request, response) => {
     });
 });
 
+app.delete('/api/v1/castMembers/:id', (request, response) => {
+  const castId = parseInt(request.params.id);
+  database('cast_members')
+    .where('id', castId)
+    .delete()
+    .then(() => response.status(201).json("Deleted"))
+});
 
 app.listen(app.get('port'), () => {
   console.log(`App is listening on port ${app.get('port')}`);
