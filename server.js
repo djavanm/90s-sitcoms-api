@@ -97,8 +97,14 @@ app.delete('/api/v1/castMembers/:id', (request, response) => {
   const castId = parseInt(request.params.id);
   database('cast_members')
     .where('id', castId)
-    .delete()
-    .then(() => response.status(201).json("Deleted"))
+    .then(data => {
+      if(data.length) {
+        database('cast_members').where('id', castId).delete()
+          .then(() => response.status(201).json("Deleted"))
+      } else {
+        return response.status(404).json({error: "This cast member does not exist."})
+      }
+    });
 });
 
 app.listen(app.get('port'), () => {
