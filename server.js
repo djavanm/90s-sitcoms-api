@@ -38,6 +38,30 @@ app.get('/api/v1/sitcoms/:id', (request, response) => {
     });
 });
 
+app.get('/api/v1/castMembers', (request, response) => {
+  database('cast_members').select()
+    .then((castMembers) => {
+      response.status(200).json(castMembers);
+    })
+    .catch((error) => {
+      response.status(500).json({ error });
+    });
+});
+
+app.post('/api/v1/castMembers', (request, response) => {
+  const castMember = request.body;
+  const { name, character, original, sitcom_id} = castMember;
+  for (let requiredKey of ['name', 'character', 'original', 'sitcom_id']) {
+    if(!castMember[requiredKey]) {
+      return response.status(404).send({error: `You are missing a required value for ${requiredKey}`})
+    }
+  }
+  database('cast_members').insert({name, character, original, sitcom_id}, 'id')
+    .then(id => response.status(201).json({id: id}))
+    .catch(error => response.status(500).json({ error }))
+});
+
+
 app.get('/api/v1/castMembers/:id', (request, response) => {
   const castId = parseInt(request.params.id);
   database('cast_members')
@@ -51,15 +75,6 @@ app.get('/api/v1/castMembers/:id', (request, response) => {
     });
 });
 
-app.get('/api/v1/castMembers', (request, response) => {
-  database('cast_members').select()
-    .then((castMembers) => {
-      response.status(200).json(castMembers);
-    })
-    .catch((error) => {
-      response.status(500).json({ error });
-    });
-});
 
 app.listen(app.get('port'), () => {
   console.log(`App is listening on port ${app.get('port')}`);
