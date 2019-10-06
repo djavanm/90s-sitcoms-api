@@ -30,7 +30,7 @@ app.post('/api/v1/sitcoms', (request, response) => {
   const { title, seasons, episodes, premiere_date, finale_date } = sitcom;
   for (let requiredKey of ['title', 'seasons', 'episodes', 'premiere_date', 'finale_date']) {
     if(!sitcom[requiredKey]) {
-      return response.status(404).send({error: `You are missing a required value for ${requiredKey}`})
+      return response.status(422).send({error: `Entity missing a required value for ${requiredKey}`})
     }
   }
   database('sitcoms').insert({title, seasons, episodes, premiere_date, finale_date}, 'id')
@@ -71,7 +71,7 @@ app.post('/api/v1/castMembers', (request, response) => {
   const { name, character, original, sitcom_id} = castMember;
   for (let requiredKey of ['name', 'character', 'original', 'sitcom_id']) {
     if(!castMember[requiredKey]) {
-      return response.status(404).send({error: `You are missing a required value for ${requiredKey}`})
+      return response.status(422).send({error: `Entity missing a required value for ${requiredKey}`})
     }
   }
   database('cast_members').insert({name, character, original, sitcom_id}, 'id')
