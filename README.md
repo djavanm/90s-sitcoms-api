@@ -26,7 +26,7 @@ The 90s sitcoms API is a database containing information on popular television s
 | `https://sitcoms-api.herokuapp.com/api/v1/castMembers` | GET | not needed | ARRAY of all cast members currently in the database |
 | `https://sitcoms-api.herokuapp.com/api/v1/sitcoms/:id` | GET | not needed | OBJECT containing SITCOM key detailing current sitcom, and CAST key containing an ARRAY of castMembers.|
 | `https://sitcoms-api.herokuapp.com/api/v1/castMembers/:id` | GET | not needed | OBJECT of the specified castMember |
-| `https://sitcoms-api.herokuapp.com/api/v1/sitcoms/` | POST | `{"title": <STRING>, "seasons": INTEGER, "episodes": <INTEGER>, "premiere_date": <STRING ex. "01-01-1990>, "finale_date": <STRING ex. "01-01-1990> }` | Add a new sitcom to the shipyard database, success response contains sitcom ID `` |
+| `https://sitcoms-api.herokuapp.com/api/v1/sitcoms/` | POST | `{"title": <STRING>, "seasons": <INTEGER>, "episodes": <INTEGER>, "premiere_date": <STRING ex. "01-01-1990>, "finale_date": <STRING ex. "01-01-1990> }` | Add a new sitcom to the shipyard database, success response contains sitcom ID `` |
 | `https://sitcoms-api.herokuapp.com/api/v1/castMembers` | POST | `{"name": <STRING>, "character": <STRING>}, "original": <BOOLEAN>, "sitcom_id": <INTEGER> ` | Add new castMember; success response contains castMember ID |
 | `https://sitcoms-api.herokuapp.com/api/v1/castMembers/:id` | DELETE | not needed | Delete selected cast member from the database |
 
